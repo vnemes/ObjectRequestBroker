@@ -5,32 +5,58 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class ORBTest {
-    private Thread t;
+    private Thread t, testt;
+    private MockImpl obj = new MockImpl();
 
-    @Before
-    public void setUp() throws Exception {
-        NamingService n = new NamingService();
-        (t = new Thread(n::startService)).start();
+
+    interface IMock {
+        String doSmth(String arg);
     }
 
+    class MockImpl implements IMock {
+
+        @Override
+        public String doSmth(String arg) {
+            return arg;
+        }
+    }
+
+
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
+        testt.interrupt();
+        testt.stop();
         t.interrupt();
         t.stop();
     }
 
+    @Before
+    public void setUp() throws Exception {
+        obj = new MockImpl();
+        NamingService n = new NamingService();
+        (t = new Thread(n::startService)).start();
+        (testt = new Thread(() -> ORB.register("NASDAQ", 1324, "StockMarket", obj))).start();
+        Thread.sleep(20);
+    }
+
+
     @Test
-    public void registerToNamingServiceTest() {
-        ORB.registerToNamingService("NASDAQ",1324,"StockMarket");
+    public void getObjectReferenceTest()  {
+        IMock m = (IMock) ORB.getObjectReference("NASDAQ", IMock.class);
+        String retVal = m.doSmth("Value passed as argument");
+        System.out.println('\n' + "Method call returned: " + retVal);
+
+        assert retVal.equals("Value passed as argument");
+    }
+
+    @Test
+    public void registerTest() {
+        ORB.register("NASDAQ", 1324, "StockMarket", obj);
     }
 
     @Test
     public void getProviderAddressTest() {
-        registerToNamingServiceTest();
-
-        System.out.println(ORB.getProviderAddress("NASDAQ").toString());
+        System.out.println('\n' + ORB.getProviderAddress("NASDAQ").toString());
     }
 }
