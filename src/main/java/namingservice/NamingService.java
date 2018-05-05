@@ -1,8 +1,9 @@
 package namingservice;
 
-import requestreplyapi.Registry.Entry;
-import requestreplyapi.Registry.ExtendedEntry;
-import requestreplyapi.RequestReply.Replyer;
+import orbapi.Marshaller;
+import requestreplyapi.entries.Entry;
+import requestreplyapi.entries.ExtendedEntry;
+import requestreplyapi.requestreply.Replyer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -61,22 +62,27 @@ public class NamingService {
                         reply = new InvalidRequestReply();
                         break;
                 }
-                return gson.toJson(reply).getBytes();
+                return Marshaller.marshallObject(reply);
             });
     }
 
     private Reply processLocalizationRequest(String inStr) {
         Reply reply;LocalizationRequest locRequest = gson.fromJson(inStr, LocalizationRequest.class);
 
-        reply = new LocalizationReply("localization_reply", entryMap.get(locRequest.getEntry_name()), true);
+        reply = new LocalizationReply("localization_reply", entryMap.get(locRequest.getEntry_name()), entryMap.get(locRequest.getEntry_name()) != null);
         return reply;
     }
 
     private Reply processRegistrationRequest(String inStr) {
         Reply reply;RegistrationRequest regRequest = gson.fromJson(inStr, RegistrationRequest.class);
-        entryMap.put(regRequest.getEntry_name(), regRequest.getEntry_data());
-
-        reply = new RegistrationReply("registration_reply", true);
+        boolean req_res;
+        if (entryMap.containsKey(regRequest.getEntry_name())){
+            req_res = false;
+        } else{
+            entryMap.put(regRequest.getEntry_name(), regRequest.getEntry_data());
+            req_res = true;
+        }
+        reply = new RegistrationReply("registration_reply", req_res);
         return reply;
     }
 

@@ -1,7 +1,6 @@
 package namingservice.requests;
 
-import com.google.gson.Gson;
-import requestreplyapi.Registry.ExtendedEntry;
+import requestreplyapi.entries.ExtendedEntry;
 
 public class RegistrationRequest extends Request{
     private ExtendedEntry entry_data;

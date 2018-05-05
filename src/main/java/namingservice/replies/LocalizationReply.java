@@ -1,6 +1,6 @@
 package namingservice.replies;
 
-import requestreplyapi.Registry.ExtendedEntry;
+import requestreplyapi.entries.ExtendedEntry;
 
 public class LocalizationReply extends Reply {
     private ExtendedEntry entry_data;
