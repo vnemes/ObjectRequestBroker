@@ -1,4 +1,4 @@
-package requestreplyapi.RequestReply;
+package requestreplyapi.common;
 
 public interface ByteStreamTransformer
 {

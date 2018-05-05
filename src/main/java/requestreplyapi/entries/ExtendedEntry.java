@@ -1,4 +1,4 @@
-package requestreplyapi.Registry;
+package requestreplyapi.entries;
 
 public class ExtendedEntry extends Entry{
     private String entryType;

@@ -1,4 +1,4 @@
-package requestreplyapi.Commons;
+package requestreplyapi.common;
 
 public interface IAddress {
     String dest();

@@ -1,6 +1,6 @@
-package requestreplyapi.Registry;
+package requestreplyapi.entries;
 
-import requestreplyapi.Commons.IAddress;
+import requestreplyapi.common.IAddress;
 
 public class Entry implements IAddress
 {

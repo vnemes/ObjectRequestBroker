@@ -1,6 +1,7 @@
-package requestreplyapi.RequestReply;
+package requestreplyapi.requestreply;
 
-import requestreplyapi.Commons.IAddress;
+import requestreplyapi.common.ByteStreamTransformer;
+import requestreplyapi.common.IAddress;
 
 import java.net.*;
 import java.io.*;
