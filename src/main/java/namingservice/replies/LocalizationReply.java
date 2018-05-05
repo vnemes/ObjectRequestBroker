@@ -17,4 +17,11 @@ public class LocalizationReply extends Reply {
     public void setEntry_data(ExtendedEntry entry_data) {
         this.entry_data = entry_data;
     }
+
+    @Override
+    public String toString() {
+        return "LocalizationReply{" +
+                "entry_data=" + entry_data +
+                '}';
+    }
 }

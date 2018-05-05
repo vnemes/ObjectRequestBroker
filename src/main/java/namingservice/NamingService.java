@@ -13,10 +13,22 @@ import namingservice.replies.Reply;
 import namingservice.requests.LocalizationRequest;
 import namingservice.requests.RegistrationRequest;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 
 public class NamingService {
-    public static final Entry NAMING_SERVICE_ENTRY = new Entry("127.0.0.1", 1111);
+    public static Entry NAMING_SERVICE_ENTRY;
+
+    static {
+        try {
+            NAMING_SERVICE_ENTRY = new Entry(Inet4Address.getLocalHost().getHostAddress(), 1111);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            NAMING_SERVICE_ENTRY = null;
+        }
+    }
+
     private static final String NAMING_SERVICE_NAME = "NamingService";
     private Gson gson;
     private HashMap<String, ExtendedEntry> entryMap;

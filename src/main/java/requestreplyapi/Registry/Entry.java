@@ -19,4 +19,12 @@ public class Entry implements IAddress
 	{
 		return portNr;
 	}
+
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "destinationId='" + destinationId + '\'' +
+                ", portNr=" + portNr +
+                '}';
+    }
 }

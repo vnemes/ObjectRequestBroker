@@ -11,4 +11,12 @@ public class ExtendedEntry extends Entry{
     public String type(){
         return entryType;
     }
+
+    @Override
+    public String toString() {
+        return "ExtendedEntry{" +
+                "entryType='" + entryType + '\'' +
+                super.toString() +
+                '}';
+    }
 }

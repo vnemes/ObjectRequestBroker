@@ -29,9 +29,7 @@ public class NamingServiceTest {
     public void registerRequestTest() {
         Requestor r = new Requestor("SomeRequestor");
         RegistrationRequest rr = new RegistrationRequest("NASDAQ", new ExtendedEntry("192.168.0.1", 1324, "StockMarket"));
-        String sresp = gson.toJson(rr);
-        byte[] send = sresp.getBytes();
-        byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, send);
+        byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, rr.getBytes());
         RegistrationReply reply = gson.fromJson(new String(resp), RegistrationReply.class);
         System.out.println(gson.toJson(reply));
     }
@@ -41,9 +39,7 @@ public class NamingServiceTest {
         registerRequestTest();
         Requestor r = new Requestor("SomeRequestor");
         LocalizationRequest lr = new LocalizationRequest("NASDAQ");
-        String sresp = gson.toJson(lr);
-        byte[] send = sresp.getBytes();
-        byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, send);
+        byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, lr.getBytes());
         LocalizationReply reply = gson.fromJson(new String(resp),LocalizationReply.class);
         System.out.println(gson.toJson(reply));
     }
