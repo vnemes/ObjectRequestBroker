@@ -8,6 +8,7 @@ import requestreplyapi.entries.ExtendedEntry;
 import requestreplyapi.requestreply.*;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.Inet4Address;
@@ -41,13 +42,28 @@ public class ORB {
                 replyer.receive_transform_and_send_feedback(in -> {
                     MethodCall methodRequest = Marshaller.unmarshallMethod(in);
                     try {
-                        Class[] paramtypes = new Class[methodRequest.getArgs().length];
-                        for (int i = 0; i < methodRequest.getArgs().length; i++) {
-                            paramtypes[i] = methodRequest.getArgs()[i].getClass();
+                        try {
+                            Class[] paramtypes = new Class[methodRequest.getArgs().length];
+                            for (int i = 0; i < methodRequest.getArgs().length; i++)
+                                paramtypes[i] = methodRequest.getArgs()[i].getClass();
+
+                            Method reflMethod = object.getClass().getMethod(methodRequest.getMethodName(), paramtypes);
+                            return Marshaller.marshallObject(reflMethod.invoke(object, methodRequest.getArgs()));
+                        } catch (NoSuchMethodException e) {
+                            // fall back here if method arguements are primitives
+                            Class[] paramtypes = new Class[methodRequest.getArgs().length];
+                            for (int i = 0; i < methodRequest.getArgs().length; i++)
+                                // convert parameter classes to primitive classes
+                                paramtypes[i] = Marshaller.attemptPrimitiveConvesion(methodRequest.getArgs()[i].getClass());
+
+                            Method reflMethod = object.getClass().getMethod(methodRequest.getMethodName(), paramtypes);
+                            return Marshaller.marshallObject(reflMethod.invoke(object, methodRequest.getArgs()));
                         }
-                        Method reflMethod = object.getClass().getMethod(methodRequest.getMethodName(), paramtypes);
-                        return Marshaller.marshallObject(reflMethod.invoke(object, methodRequest.getArgs()));
-                    } catch (Exception e) {
+                    } catch (NoSuchMethodException e1) {
+                        e1.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     }
                     return null;
@@ -89,8 +105,6 @@ public class ORB {
 
         return reply.getEntry_data();
     }
-
-
 
 
 }
