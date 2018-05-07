@@ -19,6 +19,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 public class NamingService {
+    private static NamingService instance = new NamingService();
     public static Entry NAMING_SERVICE_ENTRY;
 
     static {
@@ -33,16 +34,29 @@ public class NamingService {
     private static final String NAMING_SERVICE_NAME = "NamingService";
     private Gson gson;
     private HashMap<String, ExtendedEntry> entryMap;
+    private boolean isServiceRunning;
 
-    public NamingService() {
+    public static NamingService getInstance(){
+        return instance;
+    }
+
+    private NamingService() {
         entryMap = new HashMap<>();
         gson = new Gson();
+        isServiceRunning =false;
     }
 
     public void startService() {
-        Replyer mReplyer = new Replyer(NAMING_SERVICE_NAME, NAMING_SERVICE_ENTRY);
 
-        while (true)
+        if (isServiceRunning) {
+            System.out.println("NamingService already running");
+            return;
+        }
+
+        Replyer mReplyer = new Replyer(NAMING_SERVICE_NAME, NAMING_SERVICE_ENTRY);
+        isServiceRunning = true;
+
+        while (isServiceRunning)
             mReplyer.receive_transform_and_send_feedback(in -> {
 
                 Reply reply;
@@ -84,6 +98,14 @@ public class NamingService {
         }
         reply = new RegistrationReply("registration_reply", req_res);
         return reply;
+    }
+
+    public void stopService(){
+        if (!isServiceRunning){
+            System.out.println("NamingService is not running!");
+            return;
+        }
+        isServiceRunning = false;
     }
 
     public static void main(String[] args) {

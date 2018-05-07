@@ -14,16 +14,20 @@ import org.junit.Test;
 
 public class NamingServiceTest {
     private Gson gson;
+    Thread t;
 
     @Before
     public void setUp() throws Exception {
-//        NamingService namingService = new NamingService();
-//        namingService.startService();
         gson = new Gson();
+        NamingService n = NamingService.getInstance();
+        (t = new Thread(n::startService)).start();
+        Thread.sleep(5);
     }
 
     @After
     public void tearDown() throws Exception {
+        t.interrupt();
+        t.stop();
     }
 
     @Test

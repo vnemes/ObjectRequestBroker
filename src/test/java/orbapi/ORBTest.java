@@ -34,7 +34,7 @@ public class ORBTest {
     @Before
     public void setUp() throws Exception {
         obj = new MockImpl();
-        NamingService n = new NamingService();
+        NamingService n = NamingService.getInstance();
         (t = new Thread(n::startService)).start();
         (testt = new Thread(() -> ORB.register("NASDAQ", 1324, "StockMarket", obj))).start();
         Thread.sleep(20);
