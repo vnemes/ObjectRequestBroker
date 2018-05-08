@@ -27,11 +27,13 @@ public class Requestor {
             s = new Socket(theDest.dest(), theDest.port());
             System.out.println("Requestor: Socket" + s);
             oStr = s.getOutputStream();
-            oStr.write(data.length);
+            oStr.write(data.length >> 8);
+            oStr.write(data.length & 0xFF);
             oStr.write(data);
             oStr.flush();
             iStr = s.getInputStream();
-            val = iStr.read();
+            val = iStr.read() << 8;
+            val |= iStr.read();
             buffer = new byte[val];
             iStr.read(buffer);
             iStr.close();

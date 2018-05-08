@@ -33,14 +33,17 @@ public class Replyer {
             s = srvS.accept();
             System.out.println("Replyer accept: Socket" + s);
             iStr = s.getInputStream();
-            val = iStr.read();
+            //correction performed for objects bigger than 256 bytes
+            val = iStr.read() << 8;
+            val |= iStr.read();
             buffer = new byte[val];
             iStr.read(buffer);
 
             byte[] data = t.transform(buffer);
 
             oStr = s.getOutputStream();
-            oStr.write(data.length);
+            oStr.write(data.length >> 8);
+            oStr.write(data.length & 0xFF);
             oStr.write(data);
             oStr.flush();
             oStr.close();
