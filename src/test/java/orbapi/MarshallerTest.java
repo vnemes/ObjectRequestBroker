@@ -21,7 +21,7 @@ public class MarshallerTest {
             @Override
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
-                byte[] res = Marshaller.marshallMethod(method,args);
+                byte[] res = Marshaller.marshallObject(new MethodCall(method.getName(),args));
                 return Marshaller.unMarshallObject(res /*, MethodCall.class*/);
             }
         };

@@ -22,7 +22,7 @@ public class ORB {
 
         InvocationHandler handler = (proxy, method, args) -> {
             Requestor req = new Requestor("Requestor");
-            byte[] reply = req.deliver_and_wait_feedback(getProviderAddress(objectName), Marshaller.marshallMethod(method, args));
+            byte[] reply = req.deliver_and_wait_feedback(getProviderAddress(objectName), Marshaller.marshallObject(new MethodCall(method.getName(), args)));
             Object retval = Marshaller.unMarshallObject(reply);
             System.out.println("@called " + method.getName() + " from " + objectName + " and received " + retval.toString() + " as return value");
             return retval;
@@ -41,7 +41,7 @@ public class ORB {
 
             while (true)
                 replyer.receive_transform_and_send_feedback(in -> {
-                    MethodCall methodRequest = Marshaller.unMarshallMethod(in);
+                    MethodCall methodRequest = (MethodCall) Marshaller.unMarshallObject(in);
                     try {
                         try {
                             Class[] paramtypes = new Class[methodRequest.getArgs().length];
