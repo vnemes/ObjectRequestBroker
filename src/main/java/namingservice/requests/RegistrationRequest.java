@@ -12,6 +12,9 @@ public class RegistrationRequest extends Request{
         this.entry_name = entry_name;
     }
 
+    public RegistrationRequest() {
+    }
+
     public ExtendedEntry getEntry_data() {
         return entry_data;
     }

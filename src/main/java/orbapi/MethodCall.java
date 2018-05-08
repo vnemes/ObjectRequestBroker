@@ -6,6 +6,9 @@ public class MethodCall{
     private String methodName;
     private Object[] args;
 
+    public MethodCall() {
+    }
+
     MethodCall(String methodName, Object[] args) {
         this.methodName = methodName;
         this.args = args;

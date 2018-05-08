@@ -7,6 +7,9 @@ public class Request {
         this.request_type = request_type;
     }
 
+    public Request() {
+    }
+
     public String getRequest_type() {
         return request_type;
     }

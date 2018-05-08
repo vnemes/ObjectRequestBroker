@@ -10,6 +10,9 @@ public class LocalizationReply extends Reply {
         this.entry_data = entry_data;
     }
 
+    public LocalizationReply() {
+    }
+
     public ExtendedEntry getEntry_data() {
         return entry_data;
     }

@@ -11,6 +11,10 @@ public class Entry implements IAddress
 		destinationId = theDest;
 		portNr = thePort;
 	}
+
+	public Entry() {
+	}
+
 	public String dest()
 	{
 		return destinationId;

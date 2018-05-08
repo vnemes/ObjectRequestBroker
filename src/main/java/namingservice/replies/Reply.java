@@ -1,6 +1,5 @@
 package namingservice.replies;
 
-import com.google.gson.Gson;
 
 public class Reply {
     private String reply_type;
@@ -9,6 +8,9 @@ public class Reply {
     public Reply(String reply_type, boolean request_resolved) {
         this.reply_type = reply_type;
         this.request_resolved = request_resolved;
+    }
+
+    public Reply() {
     }
 
     public String getReply_type() {

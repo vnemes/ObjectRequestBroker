@@ -8,6 +8,9 @@ public class ExtendedEntry extends Entry{
         this.entryType = entryType;
     }
 
+    public ExtendedEntry() {
+    }
+
     public String type(){
         return entryType;
     }

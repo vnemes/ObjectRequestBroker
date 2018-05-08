@@ -8,6 +8,9 @@ public class LocalizationRequest extends  Request{
         this.entry_name = entry_name;
     }
 
+    public LocalizationRequest() {
+    }
+
     public String getEntry_name() {
         return entry_name;
     }
