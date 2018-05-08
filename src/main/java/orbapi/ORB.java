@@ -6,6 +6,7 @@ import namingservice.requests.*;
 import requestreplyapi.entries.Entry;
 import requestreplyapi.entries.ExtendedEntry;
 import requestreplyapi.requestreply.*;
+import vson.FieldUtils;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -22,7 +23,7 @@ public class ORB {
         InvocationHandler handler = (proxy, method, args) -> {
             Requestor req = new Requestor("Requestor");
             byte[] reply = req.deliver_and_wait_feedback(getProviderAddress(objectName), Marshaller.marshallMethod(method, args));
-            Object retval = Marshaller.unmarshallObject(reply, method.getReturnType());
+            Object retval = Marshaller.unMarshallObject(reply);
             System.out.println("@called " + method.getName() + " from " + objectName + " and received " + retval.toString() + " as return value");
             return retval;
         };
@@ -40,7 +41,7 @@ public class ORB {
 
             while (true)
                 replyer.receive_transform_and_send_feedback(in -> {
-                    MethodCall methodRequest = Marshaller.unmarshallMethod(in);
+                    MethodCall methodRequest = Marshaller.unMarshallMethod(in);
                     try {
                         try {
                             Class[] paramtypes = new Class[methodRequest.getArgs().length];
@@ -54,7 +55,7 @@ public class ORB {
                             Class[] paramtypes = new Class[methodRequest.getArgs().length];
                             for (int i = 0; i < methodRequest.getArgs().length; i++)
                                 // convert parameter classes to primitive classes
-                                paramtypes[i] = Marshaller.attemptPrimitiveConvesion(methodRequest.getArgs()[i].getClass());
+                                paramtypes[i] = FieldUtils.attemptPrimitiveConvesion(methodRequest.getArgs()[i].getClass());
 
                             Method reflMethod = object.getClass().getMethod(methodRequest.getMethodName(), paramtypes);
                             return Marshaller.marshallObject(reflMethod.invoke(object, methodRequest.getArgs()));
@@ -80,7 +81,7 @@ public class ORB {
         RegistrationRequest rr = new RegistrationRequest(name, new ExtendedEntry(Inet4Address.getLocalHost().getHostAddress(), port, entryType));
         byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, Marshaller.marshallObject(rr));
         // todo: for deployment, the IP & Port of the naming service shall be retrieved from a configuration file
-        RegistrationReply reply = (RegistrationReply) Marshaller.unmarshallObject(resp, RegistrationReply.class);
+        RegistrationReply reply = (RegistrationReply) Marshaller.unMarshallObject(resp /*,RegistrationReply.class*/);
         if (reply.isRequest_resolved())
             System.out.println("@registered " + name);
         else {
@@ -95,7 +96,7 @@ public class ORB {
         Requestor r = new Requestor("getter");
         LocalizationRequest lr = new LocalizationRequest(serviceName);
         byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, Marshaller.marshallObject(lr));
-        LocalizationReply reply = (LocalizationReply) Marshaller.unmarshallObject(resp, LocalizationReply.class);
+        LocalizationReply reply = (LocalizationReply) Marshaller.unMarshallObject(resp);
         if (reply.isRequest_resolved()) {
             System.out.println("@localized " + serviceName + ": " + reply.getEntry_data().toString());
         } else {
