@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Arrays;
 
 public class MarshallerTest {
     private mock obj;
@@ -23,7 +22,7 @@ public class MarshallerTest {
             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
                 byte[] res = Marshaller.marshallMethod(method,args);
-                return Marshaller.unmarshallObject(res, MethodCall.class);
+                return Marshaller.unMarshallObject(res /*, MethodCall.class*/);
             }
         };
 

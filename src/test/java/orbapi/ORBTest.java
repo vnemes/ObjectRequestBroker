@@ -32,7 +32,7 @@ public class ORBTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception{
         obj = new MockImpl();
         NamingService n = NamingService.getInstance();
         (t = new Thread(n::startService)).start();
@@ -42,7 +42,7 @@ public class ORBTest {
 
 
     @Test
-    public void getObjectReferenceTest()  {
+    public void getObjectReferenceTest() throws InterruptedException {
         IMock m = (IMock) ORB.getObjectReference("NASDAQ", IMock.class);
         String retVal = m.doSmth("Value passed as argument");
         System.out.println('\n' + "Method call returned: " + retVal);
@@ -56,7 +56,8 @@ public class ORBTest {
     }
 
     @Test
-    public void getProviderAddressTest() {
+    public void getProviderAddressTest() throws InterruptedException {
         System.out.println('\n' + ORB.getProviderAddress("NASDAQ").toString());
     }
+
 }
