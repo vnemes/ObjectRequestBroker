@@ -4,9 +4,6 @@ import orbapi.Marshaller;
 import requestreplyapi.entries.Entry;
 import requestreplyapi.entries.ExtendedEntry;
 import requestreplyapi.requestreply.Replyer;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import namingservice.replies.InvalidRequestReply;
 import namingservice.replies.LocalizationReply;
 import namingservice.replies.RegistrationReply;
@@ -32,7 +29,6 @@ public class NamingService {
     }
 
     private static final String NAMING_SERVICE_NAME = "NamingService";
-    private Gson gson;
     private HashMap<String, ExtendedEntry> entryMap;
     private boolean isServiceRunning;
 
@@ -42,7 +38,6 @@ public class NamingService {
 
     private NamingService() {
         entryMap = new HashMap<>();
-        gson = new Gson();
         isServiceRunning =false;
     }
 
@@ -61,34 +56,24 @@ public class NamingService {
 
                 Reply reply;
                 String inStr = new String(in);
-                JsonObject object = new JsonParser().parse(inStr).getAsJsonObject();
-
-                switch (object.get("request_type").toString().replaceAll("^\"|\"$", "")) {
-                    case "registration_request":
-                        reply = processRegistrationRequest(inStr);
-                        break;
-
-                    case "localization_request":
-                        reply = processLocalizationRequest(inStr);
-                        break;
-
-                    default:
-                        reply = new InvalidRequestReply();
-                        break;
-                }
+                if (inStr.contains("registration_request"))
+                        reply = processRegistrationRequest(in);
+                else if (inStr.contains("localization_request"))
+                        reply = processLocalizationRequest(in);
+                else reply = new InvalidRequestReply();
                 return Marshaller.marshallObject(reply);
             });
     }
 
-    private Reply processLocalizationRequest(String inStr) {
-        Reply reply;LocalizationRequest locRequest = gson.fromJson(inStr, LocalizationRequest.class);
+    private Reply processLocalizationRequest(byte[] in) {
+        Reply reply;LocalizationRequest locRequest = (LocalizationRequest) Marshaller.unMarshallObject(in);
 
         reply = new LocalizationReply("localization_reply", entryMap.get(locRequest.getEntry_name()), entryMap.get(locRequest.getEntry_name()) != null);
         return reply;
     }
 
-    private Reply processRegistrationRequest(String inStr) {
-        Reply reply;RegistrationRequest regRequest = gson.fromJson(inStr, RegistrationRequest.class);
+    private Reply processRegistrationRequest(byte[] in) {
+        Reply reply;RegistrationRequest regRequest = (RegistrationRequest) Marshaller.unMarshallObject(in);
         boolean req_res;
         if (entryMap.containsKey(regRequest.getEntry_name())){
             req_res = false;
@@ -109,7 +94,6 @@ public class NamingService {
     }
 
     public static void main(String[] args) {
-        NamingService namingService = new NamingService();
-        namingService.startService();
+        getInstance().startService();
     }
 }

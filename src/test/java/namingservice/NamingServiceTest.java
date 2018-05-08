@@ -3,7 +3,6 @@ package namingservice;
 import orbapi.Marshaller;
 import requestreplyapi.entries.ExtendedEntry;
 import requestreplyapi.requestreply.Requestor;
-import com.google.gson.Gson;
 import namingservice.replies.LocalizationReply;
 import namingservice.replies.RegistrationReply;
 import namingservice.requests.LocalizationRequest;
@@ -11,14 +10,13 @@ import namingservice.requests.RegistrationRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import vson.Vson;
 
 public class NamingServiceTest {
-    private Gson gson;
     Thread t;
 
     @Before
     public void setUp() throws Exception {
-        gson = new Gson();
         NamingService n = NamingService.getInstance();
         (t = new Thread(n::startService)).start();
         Thread.sleep(5);
@@ -35,8 +33,8 @@ public class NamingServiceTest {
         Requestor r = new Requestor("SomeRequestor");
         RegistrationRequest rr = new RegistrationRequest("NASDAQ", new ExtendedEntry("192.168.0.1", 1324, "StockMarket"));
         byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, Marshaller.marshallObject(rr));
-        RegistrationReply reply = gson.fromJson(new String(resp), RegistrationReply.class);
-        System.out.println(gson.toJson(reply));
+        RegistrationReply reply = (RegistrationReply) Vson.fromJson(new String(resp));
+        System.out.println(Vson.toJson(reply));
     }
 
     @Test
@@ -45,7 +43,7 @@ public class NamingServiceTest {
         Requestor r = new Requestor("SomeRequestor");
         LocalizationRequest lr = new LocalizationRequest("NASDAQ");
         byte[] resp = r.deliver_and_wait_feedback(NamingService.NAMING_SERVICE_ENTRY, Marshaller.marshallObject(lr));
-        LocalizationReply reply = gson.fromJson(new String(resp),LocalizationReply.class);
-        System.out.println(gson.toJson(reply));
+        LocalizationReply reply = (LocalizationReply) Vson.fromJson(new String(resp));
+        System.out.println(Vson.toJson(reply));
     }
 }
