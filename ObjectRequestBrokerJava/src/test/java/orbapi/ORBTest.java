@@ -37,7 +37,7 @@ public class ORBTest {
         NamingService n = NamingService.getInstance();
         (t = new Thread(n::startService)).start();
         (testt = new Thread(() -> ORB.register("NASDAQ", 1324, "StockMarket", obj))).start();
-        Thread.sleep(20);
+        Thread.sleep(50);
     }
 
 
