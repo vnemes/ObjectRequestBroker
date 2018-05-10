@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using orbapi;
 
 namespace namingservice
 {
@@ -49,15 +50,15 @@ namespace namingservice
                 return;
             }
 
-            Replyer mReplyer = new Replyer(NAMING_SERVICE_NAME, NAMING_SERVICE_ENTRY);
+            var mReplyer = new Replyer(NAMING_SERVICE_NAME, NAMING_SERVICE_ENTRY);
             isServiceRunning = true;
 
             while (isServiceRunning)
             {
-                mReplyer.receive_transform_and_send_feedback(@in =>
+                mReplyer.receive_transform_and_send_feedback(new TransformerFunc((@in) =>
                 {
                     Reply reply;
-                    string inStr = Marshaller.stringFromByteArray(@in);
+                    var inStr = Marshaller.stringFromByteArray(@in);
                     if (inStr.Contains("registration_request"))
                     {
                         reply = processRegistrationRequest(@in);
@@ -72,7 +73,7 @@ namespace namingservice
                     }
 
                     return Marshaller.marshallObject(reply);
-                });
+                }));
             }
         }
 
@@ -114,11 +115,6 @@ namespace namingservice
             }
 
             isServiceRunning = false;
-        }
-
-        public static void main(string[] args)
-        {
-            Instance.startService();
         }
     }
 }

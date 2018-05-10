@@ -10,13 +10,8 @@ namespace ObjectRequestBrokerCS.vson.writers
     //JAVA TO C# CONVERTER TODO TASK: This Java 'import static' statement cannot be converted to C#:
     //	import static vson.FieldUtils.isPrimitive;
 
-    public class FieldWriter
+    public static class FieldWriter
     {
-
-        public FieldWriter()
-        {
-        }
-
 
         public static string toJson(FieldInfo f, object @object)
         {
@@ -44,10 +39,11 @@ namespace ObjectRequestBrokerCS.vson.writers
 
             if (FieldUtils.isPrimitive(@object.GetType()))
             { // attribute is primitive
-                sb.Append(@object.ToString());
-
+                sb.Append(@object.ToString().ToLower());
+                // using ToLower in order to transform boolean values "True" and "False" into 
+                // the lower case "true" and "false" expected by JObject.Parse()
             }
-            else if (@object.GetType().Equals(typeof(string)))
+            else if (@object is string)
             { // attribute is string
                 sb.Append("\"").Append(@object.ToString()).Append("\"");
 
@@ -57,7 +53,7 @@ namespace ObjectRequestBrokerCS.vson.writers
 
                 sb.Append("[\n");
 
-                for (int i = 0; i < ((object[])@object).Length; i++)
+                for (var i = 0; i < ((object[])@object).Length; i++)
                 {
                     sb.Append(writeFieldValue(((object[])@object)[i])).Append(",\n");
                 }

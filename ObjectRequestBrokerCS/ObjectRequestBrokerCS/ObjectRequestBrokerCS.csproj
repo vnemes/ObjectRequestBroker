@@ -59,6 +59,7 @@
     <Compile Include="orbapi\MethodCall.cs" />
     <Compile Include="orbapi\ORB.cs" />
     <Compile Include="orbapi\StringHelper.cs" />
+    <Compile Include="orbapi\TransformerFunc.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="requestreplyapi\common\ByteStreamTransformer.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="requestreplyapi\requestreply\Replyer.cs" />
     <Compile Include="requestreplyapi\requestreply\Requestor.cs" />
     <Compile Include="tests\Log.cs" />
+    <Compile Include="tests\NamingServiceTest.cs" />
     <Compile Include="tests\ReqReplyTest.cs" />
     <Compile Include="tests\VsonTest.cs" />
     <Compile Include="vson\FieldUtils.cs" />

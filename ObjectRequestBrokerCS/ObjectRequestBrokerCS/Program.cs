@@ -10,7 +10,8 @@ namespace ObjectRequestBrokerCS
         static void Main(string[] args)
         {
             //VsonTest.test();
-            ReqReplyTest.test();
+            //ReqReplyTest.test();
+            NamingServiceTest.test();
         }
     }
 }
