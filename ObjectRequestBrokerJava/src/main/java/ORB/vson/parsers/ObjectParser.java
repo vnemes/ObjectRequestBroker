@@ -19,7 +19,7 @@ public class ObjectParser {
     public static Object fromJson(String text) {
         JSONObject jsonObject = new JSONObject(text);
         try {
-            Class<?> targetClass = Class.forName(jsonObject.get("type").toString()); // get class name from "type" entry
+            Class<?> targetClass = Class.forName(jsonObject.get("type").toString().replace("System.","java.lang.")); // get class name from "type" entry
 
             if (isPrimitive(targetClass) || targetClass.equals(String.class)){
                 Constructor targetConstructor = targetClass.getConstructor(FieldUtils.attemptPrimitiveConvesion(targetClass));
