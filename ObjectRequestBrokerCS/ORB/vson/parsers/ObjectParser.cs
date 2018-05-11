@@ -13,7 +13,7 @@ namespace ORB.vson.parsers
         {
             var jsonObject = JObject.Parse(text);
 
-            var targetClass = Type.GetType(jsonObject.GetValue("type").ToString()); // get class name from "type" entry
+            var targetClass = Type.GetType(jsonObject.GetValue("type").ToString().Replace("java.lang.","System.")); // get class name from "type" entry
 
             if (FieldUtils.IsPrimitive(targetClass))
 
