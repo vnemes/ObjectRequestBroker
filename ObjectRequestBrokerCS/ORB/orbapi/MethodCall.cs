@@ -3,8 +3,8 @@
 
 	public class MethodCall
 	{
-		private string _methodName;
-		private object[] _args;
+		private string methodName;
+		private object[] args;
 
 		public MethodCall()
 		{
@@ -12,15 +12,15 @@
 
 		internal MethodCall(string methodName, object[] args)
 		{
-			_methodName = methodName;
-			_args = args;
+			this.methodName = methodName;
+			this.args = args;
 		}
 
 		public virtual string MethodName
 		{
 			get
 			{
-				return _methodName;
+				return methodName;
 			}
 		}
 
@@ -29,15 +29,15 @@
 		{
 			get
 			{
-				return _args;
+				return args;
 			}
 		}
 
 		public override string ToString()
 		{
 			return "MethodCall{" +
-					"methodName='" + _methodName + '\'' +
-					", args=" + _args +
+					"methodName='" + methodName + '\'' +
+					", args=" + args +
 					'}';
 		}
 	}
