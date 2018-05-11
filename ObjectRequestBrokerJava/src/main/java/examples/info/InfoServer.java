@@ -1,6 +1,6 @@
 package examples.info;
 
-import orbapi.ORB;
+import ORB.orbapi.ORB;
 
 import java.util.Random;
 

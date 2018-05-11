@@ -1,6 +1,6 @@
 package examples.math;
 
-import orbapi.ORB;
+import ORB.orbapi.ORB;
 
 public class MathServer implements IMath {
     private static final int MATH_SERVER_PORT = 1010;

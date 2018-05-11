@@ -1,6 +1,6 @@
 package examples;
 
-import namingservice.NamingService;
+import ORB.namingservice.NamingService;
 
 public class StartNamingService {
 

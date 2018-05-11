@@ -1,6 +1,6 @@
 package examples.math;
 
-import orbapi.ORB;
+import ORB.orbapi.ORB;
 
 public class MathClient {
 

@@ -1,16 +1,17 @@
 package namingservice;
 
-import orbapi.Marshaller;
-import requestreplyapi.entries.ExtendedEntry;
-import requestreplyapi.requestreply.Requestor;
-import namingservice.replies.LocalizationReply;
-import namingservice.replies.RegistrationReply;
-import namingservice.requests.LocalizationRequest;
-import namingservice.requests.RegistrationRequest;
+import ORB.namingservice.NamingService;
+import ORB.orbapi.Marshaller;
+import ORB.requestreplyapi.entries.ExtendedEntry;
+import ORB.requestreplyapi.requestreply.Requestor;
+import ORB.namingservice.replies.LocalizationReply;
+import ORB.namingservice.replies.RegistrationReply;
+import ORB.namingservice.requests.LocalizationRequest;
+import ORB.namingservice.requests.RegistrationRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import vson.Vson;
+import ORB.vson.Vson;
 
 public class NamingServiceTest {
     Thread t;

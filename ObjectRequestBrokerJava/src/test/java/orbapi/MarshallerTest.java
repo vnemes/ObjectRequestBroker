@@ -1,5 +1,7 @@
 package orbapi;
 
+import ORB.orbapi.Marshaller;
+import ORB.orbapi.MethodCall;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

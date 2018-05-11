@@ -1,6 +1,7 @@
 package orbapi;
 
-import namingservice.NamingService;
+import ORB.namingservice.NamingService;
+import ORB.orbapi.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
 package examples.info;
 
-import orbapi.ORB;
+import ORB.orbapi.ORB;
 
 public class InfoClient {
 
