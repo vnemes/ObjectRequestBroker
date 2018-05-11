@@ -1,21 +1,18 @@
-﻿using requestreplyapi.common;
-using requestreplyapi.entries;
-using requestreplyapi.requestreply;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using ORB.requestreplyapi.common;
+using ORB.requestreplyapi.entries;
+using ORB.requestreplyapi.requestreply;
 
-namespace ObjectRequestBrokerCS.tests
+namespace Test
 {
-    internal class Transformer : ByteStreamTransformer
+    internal class Transformer : IByteStreamTransformer
     {
 
         public Transformer() { }
 
-        byte[] ByteStreamTransformer.transform(byte[] @in)
+        byte[] IByteStreamTransformer.Transform(byte[] @in)
         {
             return Encoding.ASCII.GetBytes("Bye!");
         }

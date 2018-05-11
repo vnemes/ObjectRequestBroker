@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using namingservice;
-using orbapi;
-using requestreplyapi.entries;
+using ORB.namingservice;
+using ORB.orbapi;
 
-namespace ObjectRequestBrokerCS.tests
+namespace Test
 {
     public class NamingServiceTest
     {
@@ -14,11 +14,11 @@ namespace ObjectRequestBrokerCS.tests
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                NamingService.Instance.startService();
+                NamingService.Instance.StartService();
             }).Start();
 
-            ORB.registerToNamingService("Test", 1324, "TestType");
-            Log.log(ORB.getProviderAddress("Test").ToString());
+            ORBMiddleware.RegisterToNamingService("Test", 1324, "TestType");
+            Console.WriteLine(ORBMiddleware.GetProviderAddress("Test").ToString());
         }
     }
 }

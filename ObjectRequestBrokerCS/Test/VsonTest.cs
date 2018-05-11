@@ -1,7 +1,7 @@
-﻿using ObjectRequestBrokerCS.vson;
-using System;
+﻿using System;
+using ORB.vson;
 
-namespace ObjectRequestBrokerCS.tests
+namespace Test
 {
 
     class Test : Test2
@@ -38,7 +38,7 @@ namespace ObjectRequestBrokerCS.tests
 
         public static void test()
         {
-            Test t = (Test)Vson.fromJson("{\n" +
+            Test t = (Test)Vson.FromJson("{\n" +
                 "\"type\": \"ObjectRequestBrokerCS.tests.Test\",\n" +
                 "\"properties\": {\n" +
                 "\"@hash\": 2125039532, \n" +
@@ -47,7 +47,7 @@ namespace ObjectRequestBrokerCS.tests
                 "\"str\": \"smth\"\n" +
                 "}\n" +
                 "}");
-            Test t2 = (Test)Vson.fromJson(Vson.toJson(t));
+            Test t2 = (Test)Vson.FromJson(Vson.ToJson(t));
             t2.print();
 
         }
