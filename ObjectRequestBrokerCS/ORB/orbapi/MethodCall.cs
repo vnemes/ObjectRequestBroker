@@ -1,10 +1,10 @@
-﻿namespace orbapi
+﻿namespace ORB.orbapi
 {
 
 	public class MethodCall
 	{
-		private string methodName;
-		private object[] args;
+		private string _methodName;
+		private object[] _args;
 
 		public MethodCall()
 		{
@@ -12,15 +12,15 @@
 
 		internal MethodCall(string methodName, object[] args)
 		{
-			this.methodName = methodName;
-			this.args = args;
+			_methodName = methodName;
+			_args = args;
 		}
 
 		public virtual string MethodName
 		{
 			get
 			{
-				return methodName;
+				return _methodName;
 			}
 		}
 
@@ -29,15 +29,15 @@
 		{
 			get
 			{
-				return args;
+				return _args;
 			}
 		}
 
 		public override string ToString()
 		{
 			return "MethodCall{" +
-					"methodName='" + methodName + '\'' +
-					", args=" + args +
+					"methodName='" + _methodName + '\'' +
+					", args=" + _args +
 					'}';
 		}
 	}
